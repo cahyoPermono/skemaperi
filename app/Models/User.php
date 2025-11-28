@@ -24,6 +24,13 @@ class User extends Authenticatable
         'role',
         'pregnancy_age_weeks',
         'location',
+        'tanggal_lahir',
+        'berat_badan',
+        'tinggi_badan',
+        'lingkar_lengan',
+        'hpht',
+        'nomor_hp',
+        'profile_completed',
     ];
 
     /**

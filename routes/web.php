@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProfileCompletionController;
 use App\Http\Controllers\ScreeningController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -32,22 +33,27 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'ensure.profile.completed'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile-completion', [ProfileCompletionController::class, 'show'])->name('profile.completion');
+    Route::post('/profile-completion', [ProfileCompletionController::class, 'store'])->name('profile.completion.store');
 
-    Route::get('/screening', [ScreeningController::class, 'index'])->name('screening.index');
-    Route::post('/screening', [ScreeningController::class, 'store'])->name('screening.store');
-    Route::get('/screening/{screening}', [ScreeningController::class, 'show'])->name('screening.show');
-    Route::get('/history', [ScreeningController::class, 'history'])->name('screening.history');
+    Route::middleware('ensure.profile.completed')->group(function () {
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/literacy', [ContentController::class, 'index'])->name('literacy.index');
-    Route::get('/literacy/{content:slug}', [ContentController::class, 'show'])->name('literacy.show');
+        Route::get('/screening', [ScreeningController::class, 'index'])->name('screening.index');
+        Route::post('/screening', [ScreeningController::class, 'store'])->name('screening.store');
+        Route::get('/screening/{screening}', [ScreeningController::class, 'show'])->name('screening.show');
+        Route::get('/history', [ScreeningController::class, 'history'])->name('screening.history');
 
-    Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
+        Route::get('/literacy', [ContentController::class, 'index'])->name('literacy.index');
+        Route::get('/literacy/{content:slug}', [ContentController::class, 'show'])->name('literacy.show');
+
+        Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
+    });
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {

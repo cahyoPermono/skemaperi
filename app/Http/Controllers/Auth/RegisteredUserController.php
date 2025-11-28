@@ -35,7 +35,6 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'pregnancy_age_weeks' => 'required|integer|min:1|max:42',
             'location' => 'required|string|max:255',
         ]);
 
@@ -43,14 +42,14 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'pregnancy_age_weeks' => $request->pregnancy_age_weeks,
             'location' => $request->location,
+            'profile_completed' => false,
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(route('profile.completion'));
     }
 }
