@@ -15,7 +15,7 @@ class EnsureProfileCompleted
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user() && !$request->user()->profile_completed) {
+        if ($request->user() && $request->user()->role !== 'admin' && !$request->user()->profile_completed) {
             return redirect()->route('profile.completion');
         }
 
