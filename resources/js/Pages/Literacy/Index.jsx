@@ -10,8 +10,13 @@ export default function LiteracyIndex({ auth, contents, categories, filters }) {
     const [debouncedSearch] = useDebounce(search, 300);
 
     useEffect(() => {
-        if (debouncedSearch !== filters.search || category !== (filters.category || 'All')) {
-            router.get(route('literacy.index'), { search: debouncedSearch, category }, {
+        const searchValue = debouncedSearch || '';
+        const categoryValue = category || 'All';
+        const filtersSearch = filters.search || '';
+        const filtersCategory = filters.category || 'All';
+
+        if (searchValue !== filtersSearch || categoryValue !== filtersCategory) {
+            router.get(route('literacy.index'), { search: searchValue, category: categoryValue }, {
                 preserveState: true,
                 replace: true,
             });

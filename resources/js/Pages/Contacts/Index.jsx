@@ -10,8 +10,13 @@ export default function ContactIndex({ auth, contacts, types, filters }) {
     const [debouncedSearch] = useDebounce(search, 300);
 
     useEffect(() => {
-        if (debouncedSearch !== filters.search || type !== (filters.type || 'All')) {
-            router.get(route('contacts.index'), { search: debouncedSearch, type }, {
+        const searchValue = debouncedSearch || '';
+        const typeValue = type || 'All';
+        const filtersSearch = filters.search || '';
+        const filtersType = filters.type || 'All';
+
+        if (searchValue !== filtersSearch || typeValue !== filtersType) {
+            router.get(route('contacts.index'), { search: searchValue, type: typeValue }, {
                 preserveState: true,
                 replace: true,
             });
