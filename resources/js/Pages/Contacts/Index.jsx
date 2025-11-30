@@ -23,6 +23,22 @@ export default function ContactIndex({ auth, contacts, types, filters }) {
         }
     }, [debouncedSearch, type]);
 
+    const formatPhoneForWa = (phone) => {
+        if (!phone) return null;
+        // strip all non-digit characters
+        let digits = phone.replace(/\D/g, '');
+        if (!digits) return null;
+
+        // common Indonesian variants: 0812..., 812..., 62812...
+        if (digits.startsWith('0')) {
+            digits = '62' + digits.slice(1);
+        } else if (digits.startsWith('8')) {
+            digits = '62' + digits;
+        }
+
+        return `https://wa.me/${digits}`;
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -76,9 +92,13 @@ export default function ContactIndex({ auth, contacts, types, filters }) {
                                             {contact.address}
                                         </p>
                                         <div className="flex items-center gap-2">
-                                            <a href={`tel:${contact.phone}`} className="flex-1 text-center bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition">
-                                                Hubungi
-                                            </a>
+                                            {contact.phone ? (
+                                                <a href={formatPhoneForWa(contact.phone)} target="_blank" rel="noopener noreferrer" className="flex-1 text-center bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition">
+                                                    Hubungi
+                                                </a>
+                                            ) : (
+                                                <button disabled className="flex-1 text-center bg-gray-300 text-white py-2 rounded-md cursor-not-allowed">Hubungi</button>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

@@ -11,9 +11,12 @@ export default function AdminDashboard({ auth, stats, recentScreenings }) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="flex justify-end mb-6">
+                    <div className="flex justify-end mb-6 space-x-3">
                         <Link href={route('admin.content.index')} className="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                             Kelola Konten Edukasi
+                        </Link>
+                        <Link href={route('admin.contacts.index')} className="inline-flex items-center px-4 py-2 bg-green-700 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-600 focus:bg-green-600 active:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                            Kelola Kontak
                         </Link>
                     </div>
 
@@ -89,11 +92,11 @@ export default function AdminDashboard({ auth, stats, recentScreenings }) {
                                                     <div className="text-sm text-gray-900">{screening.total_score}</div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
-                                                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                                        ${screening.risk_level === 'high' ? 'bg-red-100 text-red-800' : 
-                                                          screening.risk_level === 'medium' ? 'bg-yellow-100 text-yellow-800' : 
+                                                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                                        ${screening.risk_level === 'high' ? 'bg-red-100 text-red-800' :
+                                                          screening.risk_level === 'medium' ? 'bg-yellow-100 text-yellow-800' :
                                                           'bg-green-100 text-green-800'}`}>
-                                                        {screening.risk_level === 'high' ? 'Tinggi' : 
+                                                        {screening.risk_level === 'high' ? 'Tinggi' :
                                                          screening.risk_level === 'medium' ? 'Sedang' : 'Rendah'}
                                                     </span>
                                                 </td>

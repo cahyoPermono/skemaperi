@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminContentController;
+use App\Http\Controllers\AdminContactController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContentController;
@@ -59,6 +60,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::resource('/content', AdminContentController::class);
+    Route::resource('/contacts', AdminContactController::class);
 });
 
 require __DIR__ . '/auth.php';

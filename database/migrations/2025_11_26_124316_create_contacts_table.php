@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
             $table->string('location'); // Kota/Kabupaten
+            $table->string('kecamatan')->nullable(); // Kecamatan / District
             $table->timestamps();
         });
     }
