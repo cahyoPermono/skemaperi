@@ -7,6 +7,7 @@ use App\Models\ScreeningAnswer;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ScreeningController extends Controller
 {
@@ -155,7 +156,20 @@ class ScreeningController extends Controller
 
     public function show(Screening $screening)
     {
-        if ($screening->user_id !== Auth::id()) {
+        Log::info('screening.access-check', [
+            'screening_id' => $screening->id,
+            'screening_user_id' => $screening->user_id,
+            'auth_id' => Auth::id(),
+            'auth_user_role' => optional(Auth::user())->role,
+        ]);
+
+        // Compare as integers to avoid strict type mismatch (DB may return string)
+        // and allow admins to view any screening.
+        $currentUser = Auth::user();
+        $isOwner = ((int) $screening->user_id === (int) $currentUser->id);
+        $isAdmin = $currentUser && $currentUser->role === 'admin';
+
+        if (! $isOwner && ! $isAdmin) {
             abort(403);
         }
 
