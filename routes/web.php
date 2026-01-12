@@ -73,6 +73,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::resource('/content', AdminContentController::class);
     Route::resource('/contacts', AdminContactController::class);
+    Route::resource('/users', \App\Http\Controllers\AdminUserController::class);
 });
 
 require __DIR__ . '/auth.php';

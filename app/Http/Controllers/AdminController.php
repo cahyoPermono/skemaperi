@@ -11,13 +11,38 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        $totalUsers = User::where('role', 'user')->count();
-        $totalScreenings = Screening::count();
+        $currentUser = auth()->user();
+        $isDistrictAdmin = $currentUser->role === 'district_admin';
 
-        $riskDistribution = Screening::selectRaw('risk_level, count(*) as count')
-            ->groupBy('risk_level')
-            ->pluck('count', 'risk_level')
-            ->toArray();
+        // Base Queries
+        $usersQuery = User::where('role', 'user');
+        $screeningsQuery = Screening::query();
+
+        // Apply Scope if District Admin
+        if ($isDistrictAdmin) {
+            $location = $currentUser->location;
+
+            $usersQuery->where('location', $location);
+
+            $screeningsQuery->whereHas('user', function ($q) use ($location) {
+                $q->where('location', $location);
+            });
+        }
+
+        $totalUsers = $usersQuery->count();
+        $totalScreenings = $screeningsQuery->count();
+
+        // Risk Distribution (Scoped)
+        // Note: We need to clone the query or re-apply scope because selectRaw modifies it
+        $riskQuery = Screening::selectRaw('risk_level, count(*) as count')->groupBy('risk_level');
+        if ($isDistrictAdmin) {
+            $location = $currentUser->location;
+            $riskQuery->whereHas('user', function ($q) use ($location) {
+                $q->where('location', $location);
+            });
+        }
+
+        $riskDistribution = $riskQuery->pluck('count', 'risk_level')->toArray();
 
         // Ensure all keys exist
         $riskDistribution = array_merge([
@@ -26,7 +51,8 @@ class AdminController extends Controller
             'high' => 0,
         ], $riskDistribution);
 
-        $recentScreenings = Screening::with('user')
+        // Recent Screenings (Scoped)
+        $recentScreenings = $screeningsQuery->with('user')
             ->latest()
             ->take(10)
             ->get();
@@ -38,6 +64,8 @@ class AdminController extends Controller
                 'riskDistribution' => $riskDistribution,
             ],
             'recentScreenings' => $recentScreenings,
+            'isDistrictAdmin' => $isDistrictAdmin,
+            'location' => $currentUser->location,
         ]);
     }
 }

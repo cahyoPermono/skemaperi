@@ -1,8 +1,10 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
+import { getPregnancyInfo } from '@/Utils/PregnancyData';
 
 export default function Dashboard({ auth }) {
     const user = auth.user;
+    const pregnancyInfo = getPregnancyInfo(user.pregnancy_age_weeks || 0);
 
     return (
         <AuthenticatedLayout
@@ -14,27 +16,52 @@ export default function Dashboard({ auth }) {
             <div className="py-8 min-h-screen">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Welcome Section with Gradient */}
-                    <div className="mb-8 bg-gradient-to-r from-brand-500 via-purple-500 to-accent-500 rounded-2xl shadow-xl overflow-hidden">
-                        <div className="p-8 sm:p-12 text-white">
-                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
-                                <div className="flex-1">
-                                    <h3 className="text-3xl sm:text-4xl font-bold mb-3">Selamat Datang, Bunda {user.name}! 👋</h3>
-                                    <p className="text-brand-100 text-lg mb-6">
-                                        Bagaimana perasaan Bunda hari ini? Semoga Bunda dan si Kecil selalu sehat dan bahagia.
-                                    </p>
-                                    {user.pregnancy_age_weeks > 0 && (
-                                        <div className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm text-white rounded-full font-medium border border-white/30 hover:bg-white/30 transition">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            <span>Usia Kehamilan: <span className="font-bold text-xl">{user.pregnancy_age_weeks}</span> Minggu</span>
-                                        </div>
-                                    )}
+                    {/* Interactive Baby Monitor */}
+                    <div className="mb-8 bg-white rounded-2xl shadow-xl overflow-hidden border border-brand-100">
+                        <div className="flex flex-col md:flex-row">
+                             {/* Left: Baby Image */}
+                            <div className="md:w-1/3 bg-brand-50 p-6 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-brand-100">
+                                <div className="w-48 h-48 bg-white rounded-full shadow-inner flex items-center justify-center overflow-hidden mb-4 p-4 border-4 border-brand-200">
+                                    <img 
+                                        src={pregnancyInfo.image} 
+                                        alt={`Bayi Bulan ${pregnancyInfo.month}`} 
+                                        className="w-full h-full object-contain drop-shadow-md"
+                                        onError={(e) => {e.target.src = 'https://via.placeholder.com/150?text=Bayi';}} 
+                                    />
                                 </div>
-                                <div className="hidden lg:flex items-center justify-center w-32 h-32 rounded-full bg-white/10 backdrop-blur-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 text-white/80" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 11.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.471 1.128A6.994 6.994 0 0110 16a6.994 6.994 0 01-6.481-3.741.999.999 0 01-.471-1.128l1.738-5.42-1.233-.616a1 1 0 11.894-1.79l1.599.8L9 4.323V3a1 1 0 011-1h0z" />
-                                    </svg>
+                                <h3 className="text-2xl font-bold text-brand-700">Bulan Ke-{pregnancyInfo.month}</h3>
+                                <div className="mt-2 px-3 py-1 bg-brand-200 text-brand-800 rounded-full text-xs font-semibold uppercase tracking-wider">
+                                    Trimester {pregnancyInfo.trimester}
+                                </div>
+                            </div>
+
+                            {/* Right: Info & Advice */}
+                            <div className="md:w-2/3 p-8 flex flex-col justify-center">
+                                <div className="mb-6">
+                                    <h2 className="text-3xl font-bold text-gray-900 mb-2">Halo, Bunda {user.name}! 👋</h2>
+                                    <p className="text-gray-600">
+                                        Usia kehamilan: <span className="font-bold text-brand-600">{user.pregnancy_age_weeks} Minggu</span>
+                                    </p>
+                                </div>
+
+                                <div className="space-y-6">
+                                    <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                                        <h4 className="font-bold text-blue-900 mb-1 flex items-center gap-2">
+                                            <span className="text-xl">👶</span> Perkembangan Bayi
+                                        </h4>
+                                        <p className="text-blue-800 text-sm leading-relaxed">
+                                            {pregnancyInfo.monthlyAdvice}
+                                        </p>
+                                    </div>
+
+                                    <div className="bg-pink-50 p-4 rounded-xl border border-pink-100">
+                                        <h4 className="font-bold text-pink-900 mb-1 flex items-center gap-2">
+                                            <span className="text-xl">💡</span> Saran Trimester Ini
+                                        </h4>
+                                        <p className="text-pink-800 text-sm leading-relaxed">
+                                            {pregnancyInfo.trimesterAdvice}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
