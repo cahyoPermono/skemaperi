@@ -30,6 +30,7 @@ class AdminContentController extends Controller
             'thumbnail_url' => 'nullable|url',
             'video_url' => 'nullable|url',
             'source' => 'nullable|string',
+            'is_pinned' => 'boolean',
         ]);
 
         Content::create([
@@ -41,6 +42,7 @@ class AdminContentController extends Controller
             'thumbnail_url' => $request->thumbnail_url,
             'video_url' => $request->video_url,
             'source' => $request->source,
+            'is_pinned' => $request->is_pinned ?? false,
         ]);
 
         return redirect()->route('admin.content.index')->with('success', 'Konten berhasil ditambahkan.');
@@ -61,6 +63,7 @@ class AdminContentController extends Controller
             'thumbnail_url' => 'nullable|url',
             'video_url' => 'nullable|url',
             'source' => 'nullable|string',
+            'is_pinned' => 'boolean',
         ]);
 
         $content->update([
@@ -72,6 +75,7 @@ class AdminContentController extends Controller
             'thumbnail_url' => $request->thumbnail_url,
             'video_url' => $request->video_url,
             'source' => $request->source,
+            'is_pinned' => $request->is_pinned ?? false,
         ]);
 
         return redirect()->route('admin.content.index')->with('success', 'Konten berhasil diperbarui.');

@@ -1,5 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InputError from '@/Components/InputError';
+import Checkbox from '@/Components/Checkbox';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
@@ -14,6 +15,7 @@ export default function AdminContentCreate({ auth }) {
         thumbnail_url: '',
         video_url: '',
         source: '',
+        is_pinned: false,
     });
 
     const submit = (e) => {
@@ -128,6 +130,17 @@ export default function AdminContentCreate({ auth }) {
                                         placeholder="Contoh: https://kemenkes.go.id atau Buku Kesehatan Ibu dan Anak"
                                     />
                                     <InputError message={errors.source} className="mt-2" />
+                                </div>
+
+                                <div className="block mt-4">
+                                    <label className="flex items-center">
+                                        <Checkbox
+                                            name="is_pinned"
+                                            checked={data.is_pinned}
+                                            onChange={(e) => setData('is_pinned', e.target.checked)}
+                                        />
+                                        <span className="ms-2 text-sm text-gray-600">Jadikan Layanan Penting / Pinned</span>
+                                    </label>
                                 </div>
 
                                 <div className="flex items-center justify-end mt-4">

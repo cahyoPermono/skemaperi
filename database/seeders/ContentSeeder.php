@@ -89,19 +89,105 @@ Jangan merasa bersalah untuk meluangkan waktu bagi diri sendiri, Bunda.",
                 'video_url' => 'https://www.youtube.com/watch?v=BPS5A9F0D6o', // Contoh video acak
                 'source' => 'YouTube',
             ],
+            [
+                'title' => 'Tanda Bahaya pada Kehamilan',
+                'category' => 'Kesehatan Fisik',
+                'type' => 'article',
+                'body' => "Segera bawa ibu hamil ke fasilitas kesehatan jika mengalami salah satu tanda baya berikut:
+1. **Muntah terus menerus** dan tidak mau makan.
+2. **Demam tinggi**.
+3. **Bengkak pada kaki, tangan, atau wajah** disertai sakit kepala atau kejang.
+4. **Janin dirasakan kurang bergerak** dibandingkan biasanya.
+5. **Perdarahan** pada hamil muda maupun hamil tua.
+6. **Air ketuban keluar** sebelum waktunya.
+
+Jangan ditunda, penanganan cepat dapat menyelamatkan nyawa ibu dan bayi.",
+                'thumbnail_url' => 'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&q=80&w=1000',
+                'video_url' => null,
+                'source' => 'Buku KIA Kementerian Kesehatan RI',
+                'is_pinned' => true,
+            ],
+            [
+                'title' => 'Porsi Makan dan Gizi Ibu Hamil',
+                'category' => 'Gizi',
+                'type' => 'article',
+                'body' => "Ibu hamil perlu makan lebih banyak dari biasanya untuk pertumbuhan janin.
+- **Makanan Pokok**: Nasi, jagung, ubi (sumber tenaga).
+- **Lauk Pauk**: Ikan, telur, tempe, tahu, daging (sumber protein untuk pertumbuhan).
+- **Sayur dan Buah**: Sumber vitamin dan mineral.
+- **Minum Air Putih**: 8-10 gelas sehari.
+- **Tablet Tambah Darah**: Minum 1 tablet setiap hari selama kehamilan minimal 90 tablet.
+
+**Pantangan:** Hindari asap rokok, alkohol, dan jamu yang tidak jelas keamanannya.",
+                'thumbnail_url' => 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=1000',
+                'video_url' => null,
+                'source' => 'Buku KIA Kementerian Kesehatan RI',
+                'is_pinned' => true,
+            ],
+            [
+                'title' => 'Perawatan Sehari-hari Ibu Hamil',
+                'category' => 'Kesehatan Fisik',
+                'type' => 'article',
+                'body' => "Menjaga kebersihan dan kesehatan diri sangat penting:
+1. **Mandi** 2 kali sehari dengan sabun.
+2. **Sikat gigi** 2 kali sehari (pagi dan malam).
+3. **Istirahat yang cukup**, tidur malam 6-7 jam dan tidur siang 1-2 jam (tidur miring kiri lebih baik).
+4. **Hubungan suami istri** boleh dilakukan selama tidak ada keluhan atau larangan dokter.
+5. **Aktivitas fisik ringan** seperti jalan pagi sangat dianjurkan.",
+                'thumbnail_url' => 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=1000',
+                'video_url' => null,
+                'source' => 'Buku KIA Kementerian Kesehatan RI',
+                'is_pinned' => true,
+            ],
+            [
+                'title' => 'Persiapan Persalinan (P4K)',
+                'category' => 'Persiapan Melahirkan',
+                'type' => 'article',
+                'body' => "Persiapkan persalinan sejak awal dengan Program Perencanaan Persalinan dan Pencegahan Komplikasi (P4K):
+- **Tanyakan tanggal perkiraan lahir**.
+- **Siapkan penolong persalinan** (dokter/bidan).
+- **Siapkan dana** atau jaminan kesehatan (BPJS/KIS).
+- **Siapkan transportasi** ke tempat persalinan.
+- **Siapkan calon pendonor darah** jika sewaktu-waktu diperlukan.
+- **Siapkan perlengkapan** bayi dan ibu.",
+                'thumbnail_url' => 'https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&q=80&w=1000',
+                'video_url' => null,
+                'source' => 'Buku KIA Kementerian Kesehatan RI',
+                'is_pinned' => true,
+            ],
+            [
+                'title' => 'Tanda-tanda Awal Persalinan',
+                'category' => 'Persiapan Melahirkan',
+                'type' => 'article',
+                'body' => "Kenali tanda bahwa persalinan sudah dekat:
+1. **Perut mulas** secara teratur, semakin lama semakin sering dan kuat.
+2. **Keluar lendir bercampur darah** dari jalan lahir.
+3. **Keluar air ketuban** dari jalan lahir.
+
+Jika mengalami tanda-tanda ini, segera hubungi bidan atau dokter dan menuju fasilitas kesehatan.",
+                'thumbnail_url' => 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&q=80&w=1000',
+                'video_url' => null,
+                'source' => 'Buku KIA Kementerian Kesehatan RI',
+                'is_pinned' => true,
+            ],
         ];
 
         foreach ($contents as $content) {
-            Content::create([
-                'title' => $content['title'],
-                'slug' => Str::slug($content['title']),
-                'category' => $content['category'],
-                'type' => $content['type'],
-                'body' => $content['body'],
-                'thumbnail_url' => $content['thumbnail_url'],
-                'video_url' => $content['video_url'],
-                'source' => $content['source'],
-            ]);
+            $slug = Str::slug($content['title']);
+
+            Content::updateOrCreate(
+                ['slug' => $slug],
+                [
+                    'title' => $content['title'],
+                    'category' => $content['category'],
+                    'type' => $content['type'],
+                    'body' => $content['body'],
+                    'thumbnail_url' => $content['thumbnail_url'],
+                    'video_url' => $content['video_url'],
+                    'source' => $content['source'],
+                    'is_pinned' => $content['is_pinned'] ?? false,
+                ]
+            );
         }
     }
 }

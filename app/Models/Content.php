@@ -16,5 +16,6 @@ class Content extends Model
         'thumbnail_url',
         'video_url',
         'source',
+        'is_pinned',
     ];
 }

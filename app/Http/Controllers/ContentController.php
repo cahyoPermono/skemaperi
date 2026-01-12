@@ -21,11 +21,16 @@ class ContentController extends Controller
             $query->where('category', $request->category);
         }
 
-        $contents = $query->latest()->get();
+        $allContents = $query->latest()->get();
+
+        $featuredContents = $allContents->where('is_pinned', true)->values();
+        $regularContents = $allContents->where('is_pinned', false)->values();
+
         $categories = Content::select('category')->distinct()->pluck('category');
 
         return Inertia::render('Literacy/Index', [
-            'contents' => $contents,
+            'featuredContents' => $featuredContents,
+            'regularContents' => $regularContents,
             'categories' => $categories,
             'filters' => $request->only(['search', 'category']),
         ]);
