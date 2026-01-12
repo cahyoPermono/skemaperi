@@ -32,7 +32,7 @@ export default function Authenticated({ user, header, children }) {
 
                         {/* Desktop Navigation */}
                         <div className="hidden md:flex md:items-center md:gap-1">
-                            {user.role !== 'admin' && (
+                            {!['admin', 'district_admin'].includes(user.role) && (
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')} className="group">
                                     <div className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-brand-50 transition duration-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-brand-600 group-hover:text-brand-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -43,7 +43,7 @@ export default function Authenticated({ user, header, children }) {
                                 </NavLink>
                             )}
 
-                            {user.role !== 'admin' && (
+                            {!['admin', 'district_admin'].includes(user.role) && (
                                 <NavLink href={route('screening.index')} active={route().current('screening.index')} className="group">
                                     <div className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-accent-50 transition duration-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent-600 group-hover:text-accent-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -72,7 +72,7 @@ export default function Authenticated({ user, header, children }) {
                                 </div>
                             </NavLink>
 
-                            )}
+
 
                             {(user.role === 'admin' || user.role === 'district_admin') && (
                                 <NavLink href={route('admin.dashboard')} active={route().current('admin.dashboard')} className="group">
@@ -164,7 +164,7 @@ export default function Authenticated({ user, header, children }) {
                 {showingNavigationDropdown && (
                     <div className="md:hidden border-t border-gray-200/50 bg-white/50 backdrop-blur-sm">
                         <div className="px-2 pt-2 pb-3 space-y-1">
-                            {user.role !== 'admin' && (
+                            {!['admin', 'district_admin'].includes(user.role) && (
                                 <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -172,7 +172,7 @@ export default function Authenticated({ user, header, children }) {
                                     Beranda
                                 </ResponsiveNavLink>
                             )}
-                            {user.role !== 'admin' && (
+                            {!['admin', 'district_admin'].includes(user.role) && (
                                 <ResponsiveNavLink href={route('screening.index')} active={route().current('screening.index')}>
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
@@ -192,7 +192,7 @@ export default function Authenticated({ user, header, children }) {
                                 </svg>
                                 Kontak
                             </ResponsiveNavLink>
-                            )}
+
                             {(user.role === 'admin' || user.role === 'district_admin') && (
                                 <ResponsiveNavLink href={route('admin.dashboard')} active={route().current('admin.dashboard')}>
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
