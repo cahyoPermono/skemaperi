@@ -40,7 +40,9 @@ Route::get('/', function () {
             'risks' => $riskStats
         ]
     ]);
-});
+})->name('welcome');
+
+Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
