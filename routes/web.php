@@ -69,6 +69,18 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+Route::get('/setup-db', function () {
+    try {
+        // Run migration
+        Artisan::call('migrate', ['--force' => true]);
+        $output = Artisan::output();
+
+        return "Migration Success:<br><pre>$output</pre><br>Sekarang silakan import file skemaperi_data.sql di phpMyAdmin untuk data-nya.";
+    } catch (\Exception $e) {
+        return "Error: " . $e->getMessage();
+    }
+});
+
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::resource('/content', AdminContentController::class);
