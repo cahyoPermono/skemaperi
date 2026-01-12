@@ -1,7 +1,7 @@
 export const getPregnancyInfo = (weeks) => {
     let month = 1;
     let trimester = 1;
-    let image = '/images/trimester_1.png'; // Default
+    let image = `/images/fetus_month_${month}.png`;
     let advice = 'Jaga asupan asam folat dan istirahat yang cukup.';
 
     if (weeks >= 1 && weeks <= 4) month = 1;
@@ -13,18 +13,21 @@ export const getPregnancyInfo = (weeks) => {
     else if (weeks <= 30) month = 7;
     else if (weeks <= 35) month = 8;
     else month = 9;
+    
+    // Ensure month is within 1-9
+    if (month < 1) month = 1;
+    if (month > 9) month = 9;
+
+    image = `/images/fetus_month_${month}.png`;
 
     if (month >= 1 && month <= 3) {
         trimester = 1;
-        image = '/images/fetus_trimester_1.png'; // Generated
         advice = "Trimester Pertama: Fokus pada nutrisi penting seperti asam folat. Istirahat cukup dan hindari stres. Mual dan muntah adalah hal wajar, makanlah dalam porsi kecil tapi sering.";
     } else if (month >= 4 && month <= 6) {
         trimester = 2;
-        image = '/images/fetus_trimester_2.png'; // Generated
         advice = "Trimester Kedua: Energi Bunda mulai kembali. Mulailah senam hamil ringan. Perhatikan gerakan janin dan nikmati masa 'bulan madu' kehamilan ini.";
     } else {
         trimester = 3;
-        image = '/images/fetus_trimester_3.png'; // Generated
         advice = "Trimester Ketiga: Persiapkan tas persalinan. Latih pernapasan dan posisi tidur miring ke kiri untuk aliran darah optimal ke bayi.";
     }
 
