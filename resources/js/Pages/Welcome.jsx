@@ -1,7 +1,7 @@
 import { Link, Head } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 
-export default function Welcome({ auth }) {
+export default function Welcome({ auth, statistics }) {
     return (
         <>
             <Head title="Selamat Datang" />
@@ -80,8 +80,46 @@ export default function Welcome({ auth }) {
                         </div>
                     </div>
                 </div>
-
-                {/* Features Section */}
+                
+                {/* Statistics Section */}
+                <div className="bg-brand-600 py-16 sm:py-24">
+                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                        <div className="mx-auto max-w-2xl lg:max-w-none">
+                            <div className="text-center mb-12">
+                                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Dampak Kami Sejauh Ini</h2>
+                                <p className="mt-4 text-lg leading-8 text-brand-100">
+                                    Bersama membangun kesadaran akan pentingnya kesehatan mental ibu.
+                                </p>
+                            </div>
+                            <dl className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+                                <div className="flex flex-col gap-y-4 rounded-xl bg-white/10 p-6 text-center shadow-lg backdrop-blur-sm border border-white/20">
+                                    <dt className="text-sm leading-7 text-brand-100">Total Skrining Dilakukan</dt>
+                                    <dd className="order-first text-4xl font-bold tracking-tight text-white sm:text-5xl">
+                                        {statistics?.total || 0}
+                                    </dd>
+                                </div>
+                                <div className="flex flex-col gap-y-4 rounded-xl bg-white/10 p-6 text-center shadow-lg backdrop-blur-sm border border-white/20">
+                                    <dt className="text-sm leading-7 text-brand-100">Risiko Rendah (Aman)</dt>
+                                    <dd className="order-first text-4xl font-bold tracking-tight text-white sm:text-5xl">
+                                        {statistics?.risks?.low || 0}
+                                    </dd>
+                                </div>
+                                <div className="flex flex-col gap-y-4 rounded-xl bg-white/10 p-6 text-center shadow-lg backdrop-blur-sm border border-white/20">
+                                    <dt className="text-sm leading-7 text-brand-100">Risiko Sedang</dt>
+                                    <dd className="order-first text-4xl font-bold tracking-tight text-white sm:text-5xl">
+                                        {statistics?.risks?.medium || 0}
+                                    </dd>
+                                </div>
+                                <div className="flex flex-col gap-y-4 rounded-xl bg-white/10 p-6 text-center shadow-lg backdrop-blur-sm border border-white/20">
+                                    <dt className="text-sm leading-7 text-brand-100">Risiko Tinggi</dt>
+                                    <dd className="order-first text-4xl font-bold tracking-tight text-white sm:text-5xl">
+                                        {statistics?.risks?.high || 0}
+                                    </dd>
+                                </div>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
                 <div id="features" className="py-24 sm:py-32 bg-white">
                     <div className="max-w-7xl mx-auto px-6 lg:px-8">
                         <div className="mx-auto max-w-2xl lg:text-center mb-16">

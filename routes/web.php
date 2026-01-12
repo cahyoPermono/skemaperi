@@ -24,11 +24,21 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
+    $totalScreenings = \App\Models\Screening::count();
+    $riskStats = \App\Models\Screening::selectRaw('risk_level, count(*) as count')
+        ->groupBy('risk_level')
+        ->pluck('count', 'risk_level')
+        ->toArray();
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'statistics' => [
+            'total' => $totalScreenings,
+            'risks' => $riskStats
+        ]
     ]);
 });
 
@@ -46,6 +56,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         Route::get('/screening', [ScreeningController::class, 'index'])->name('screening.index');
+        Route::get('/screening/epds', [ScreeningController::class, 'epds'])->name('screening.epds');
+        Route::get('/screening/pass', [ScreeningController::class, 'pass'])->name('screening.pass');
         Route::post('/screening', [ScreeningController::class, 'store'])->name('screening.store');
         Route::get('/screening/{screening}', [ScreeningController::class, 'show'])->name('screening.show');
         Route::get('/history', [ScreeningController::class, 'history'])->name('screening.history');

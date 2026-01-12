@@ -13,6 +13,7 @@ export default function AdminContentCreate({ auth }) {
         type: 'article',
         thumbnail_url: '',
         video_url: '',
+        source: '',
     });
 
     const submit = (e) => {
@@ -115,6 +116,19 @@ export default function AdminContentCreate({ auth }) {
                                         <InputError message={errors.video_url} className="mt-2" />
                                     </div>
                                 )}
+
+                                <div className="mb-4">
+                                    <InputLabel htmlFor="source" value="Sumber / Referensi (URL atau Teks)" />
+                                    <TextInput
+                                        id="source"
+                                        type="text"
+                                        className="mt-1 block w-full"
+                                        value={data.source}
+                                        onChange={(e) => setData('source', e.target.value)}
+                                        placeholder="Contoh: https://kemenkes.go.id atau Buku Kesehatan Ibu dan Anak"
+                                    />
+                                    <InputError message={errors.source} className="mt-2" />
+                                </div>
 
                                 <div className="flex items-center justify-end mt-4">
                                     <Link href={route('admin.content.index')} className="text-gray-600 hover:text-gray-900 mr-4">

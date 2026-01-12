@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Screening extends Model
 {
-    protected $fillable = ['user_id', 'total_score', 'risk_level'];
+    protected $fillable = ['user_id', 'total_score', 'risk_level', 'type'];
 
     public function user()
     {

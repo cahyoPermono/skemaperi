@@ -51,6 +51,19 @@ export default function LiteracyShow({ auth, content }) {
                             <div className="prose max-w-none text-gray-700 leading-relaxed whitespace-pre-line">
                                 {content.body}
                             </div>
+
+                            {content.source && (
+                                <div className="mt-8 pt-6 border-t border-gray-100">
+                                    <h4 className="text-sm font-semibold text-gray-900 mb-2">Sumber Referensi:</h4>
+                                    {content.source.startsWith('http') ? (
+                                        <a href={content.source} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm break-all">
+                                            {content.source}
+                                        </a>
+                                    ) : (
+                                        <p className="text-sm text-gray-600">{content.source}</p>
+                                    )}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

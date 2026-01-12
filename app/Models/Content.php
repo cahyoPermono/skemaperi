@@ -15,5 +15,6 @@ class Content extends Model
         'type',
         'thumbnail_url',
         'video_url',
+        'source',
     ];
 }
